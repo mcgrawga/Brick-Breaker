@@ -19,7 +19,15 @@ public class Ball : MonoBehaviour
 
     void StartBall() {
         rb = GetComponent<Rigidbody2D> ();
-        rb.velocity = new Vector2(0f,1f).normalized * speed;
+        float paddleDirection = Input.GetAxis("Horizontal");
+        float x = 1f;
+        if (paddleDirection == 0){
+            x = 0f;    
+        }
+        if (paddleDirection < 0){
+            x *= -1f;    
+        }
+        rb.velocity = new Vector2(x, 1f).normalized * speed;
     }
 
     // Update is called once per frame

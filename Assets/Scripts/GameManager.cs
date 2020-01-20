@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public Text livesText;
     public Text scoreText;
     public Text levelText;
+    public Text titleText;
     public bool gameOver;
     public bool levelOver;
     public GameObject gameOverPanel;
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
     public AudioSource soundBrickHitExplode;
     public AudioSource soundCaughtPowerUp;
     public AudioSource soundLossOfLife;
+    public GameObject ballGameObject;
+    public GameObject paddleGameObject;
 
 
     // Start is called before the first frame update
@@ -111,6 +114,11 @@ public class GameManager : MonoBehaviour
         // PlayerPrefs.DeleteAll();
         int highScore6 = PlayerPrefs.GetInt("High_Score_6", 0);
         if (score > highScore6) {
+            paddleGameObject.SetActive(false);
+            scoreText.gameObject.SetActive(false);
+            levelText.gameObject.SetActive(false);
+            livesText.gameObject.SetActive(false);
+            titleText.gameObject.SetActive(false);
             highScorePanel.SetActive(true);
             highScorePanel.transform.Find("InputField");
             highScoreName.Select();
@@ -209,24 +217,29 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetString("High_Score_6_Player", highScoreName.text);
             PlayerPrefs.SetString("High_Score_6_Date", DateTime.Today.ToString("d"));
         }
-        highScore1 = PlayerPrefs.GetInt("High_Score_1", 0);
-        highScore2 = PlayerPrefs.GetInt("High_Score_2", 0);
-        highScore3 = PlayerPrefs.GetInt("High_Score_3", 0);
-        highScore4 = PlayerPrefs.GetInt("High_Score_4", 0);
-        highScore5 = PlayerPrefs.GetInt("High_Score_5", 0);
-        highScore6 = PlayerPrefs.GetInt("High_Score_6", 0);
-        highScore1Player = PlayerPrefs.GetString("High_Score_1_Player");
-        highScore2Player = PlayerPrefs.GetString("High_Score_2_Player");
-        highScore3Player = PlayerPrefs.GetString("High_Score_3_Player");
-        highScore4Player = PlayerPrefs.GetString("High_Score_4_Player");
-        highScore5Player = PlayerPrefs.GetString("High_Score_5_Player");
-        highScore6Player = PlayerPrefs.GetString("High_Score_6_Player");
-        highScore1Date = PlayerPrefs.GetString("High_Score_1_Date");
-        highScore2Date = PlayerPrefs.GetString("High_Score_2_Date");
-        highScore3Date = PlayerPrefs.GetString("High_Score_3_Date");
-        highScore4Date = PlayerPrefs.GetString("High_Score_4_Date");
-        highScore5Date = PlayerPrefs.GetString("High_Score_5_Date");
-        highScore6Date = PlayerPrefs.GetString("High_Score_6_Date");
+        highScorePanel.SetActive(false);
+        displayGameOverPanel();
+    }
+
+    void loadHighScores() {
+        int highScore1 = PlayerPrefs.GetInt("High_Score_1", 0);
+        int highScore2 = PlayerPrefs.GetInt("High_Score_2", 0);
+        int highScore3 = PlayerPrefs.GetInt("High_Score_3", 0);
+        int highScore4 = PlayerPrefs.GetInt("High_Score_4", 0);
+        int highScore5 = PlayerPrefs.GetInt("High_Score_5", 0);
+        int highScore6 = PlayerPrefs.GetInt("High_Score_6", 0);
+        string highScore1Player = PlayerPrefs.GetString("High_Score_1_Player");
+        string highScore2Player = PlayerPrefs.GetString("High_Score_2_Player");
+        string highScore3Player = PlayerPrefs.GetString("High_Score_3_Player");
+        string highScore4Player = PlayerPrefs.GetString("High_Score_4_Player");
+        string highScore5Player = PlayerPrefs.GetString("High_Score_5_Player");
+        string highScore6Player = PlayerPrefs.GetString("High_Score_6_Player");
+        string highScore1Date = PlayerPrefs.GetString("High_Score_1_Date");
+        string highScore2Date = PlayerPrefs.GetString("High_Score_2_Date");
+        string highScore3Date = PlayerPrefs.GetString("High_Score_3_Date");
+        string highScore4Date = PlayerPrefs.GetString("High_Score_4_Date");
+        string highScore5Date = PlayerPrefs.GetString("High_Score_5_Date");
+        string highScore6Date = PlayerPrefs.GetString("High_Score_6_Date");
         if (highScore1 > 0)
             gameOverPanel.transform.Find("HighScore1").GetComponent<Text>().text = $"{highScore1Player.ToUpper()} {String.Format("{0:n0}", highScore1)} {highScore1Date}";
         if (highScore2 > 0)
@@ -239,11 +252,16 @@ public class GameManager : MonoBehaviour
             gameOverPanel.transform.Find("HighScore5").GetComponent<Text>().text = $"{highScore5Player.ToUpper()} {String.Format("{0:n0}", highScore5)} {highScore5Date}";
         if (highScore6 > 0)
             gameOverPanel.transform.Find("HighScore6").GetComponent<Text>().text = $"{highScore6Player.ToUpper()} {String.Format("{0:n0}", highScore6)} {highScore6Date}";
-        highScorePanel.SetActive(false);
-        displayGameOverPanel();
     }
 
     void displayGameOverPanel() {
+        loadHighScores();
+        // ballGameObject.SetActive(false);
+        paddleGameObject.SetActive(false);
+        scoreText.gameObject.SetActive(false);
+        levelText.gameObject.SetActive(false);
+        livesText.gameObject.SetActive(false);
+        titleText.gameObject.SetActive(false);
         gameOverPanel.SetActive(true); 
     }
 
